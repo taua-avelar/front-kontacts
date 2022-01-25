@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import useData from "../../hooks/useData";
 import "./styles.css";
+import CustomizedToastify from "../toastify/Toastify";
 
 export default function RegisterForm() {
   const history = useHistory();
@@ -21,9 +22,11 @@ export default function RegisterForm() {
   }, [dadosCadastro]);
 
   useEffect(() => {
-    cadastrado && cadastrado.id
-      ? history.push("/login")
-      : console.log(cadastrado);
+    if (cadastrado && cadastrado.id) {
+      CustomizedToastify("Sucesso ao cadastrar!");
+      history.push("/login");
+      return;
+    }
   }, [cadastrado]);
   return (
     <div className="container-form">
@@ -60,9 +63,9 @@ export default function RegisterForm() {
         <Button
           variant="contained"
           style={{ backgroundColor: "#04C45C" }}
-          onClick={() =>
-            setDadosCadastro(() => handleRegister(nome, email, senha))
-          }
+          onClick={() => {
+            setDadosCadastro(() => handleRegister(nome, email, senha));
+          }}
         >
           Cadastrar
         </Button>

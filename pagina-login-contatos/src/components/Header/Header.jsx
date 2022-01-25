@@ -7,6 +7,7 @@ import * as React from "react";
 import { useHistory } from "react-router-dom";
 import useData from "../../hooks/useData.jsx";
 import AppBar from "./styles";
+import CustomizedToastify from "../toastify/Toastify.jsx";
 
 export default function PersistentDrawerRight() {
   const { setUsuarioLogado, setDadosLogin } = useData();
@@ -16,6 +17,7 @@ export default function PersistentDrawerRight() {
     setDadosLogin({});
     setUsuarioLogado({});
     history.push("/login");
+    CustomizedToastify("Sucesso ao deslogar!");
   };
 
   return (

@@ -1,15 +1,18 @@
 import { useState } from "react";
+import CustomizedToastify from "../components/toastify/Toastify";
 
 export default () => {
   const [dadosCadastro, setDadosCadastro] = useState({});
   const [dadosLogin, setDadosLogin] = useState({});
   const [usuarioLogado, setUsuarioLogado] = useState({});
   const [changed, setChanged] = useState();
+  const [editingContact, setEditingContact] = useState(false);
+  const [contactInEditing, setContactInEditing] = useState({});
 
   const handleRegister = (nome, email, senha) => {
-    if (!nome) return console.log("nome obrigatorio");
-    if (!email) return console.log("email obrigatorio");
-    if (!senha) return console.log("senha obrigatoria");
+    if (!nome) return CustomizedToastify("Preencha o campo nome!");
+    if (!email) return CustomizedToastify("Preencha o campo email!");
+    if (!senha) return CustomizedToastify("Preencha o campo senha!");
 
     return {
       nome: nome,
@@ -34,13 +37,13 @@ export default () => {
 
       return data;
     } catch (error) {
-      console.log(error);
+      return CustomizedToastify(error.message);
     }
   };
 
   const handleLogin = (email, senha) => {
-    if (!email) return console.log("email obrigatorio");
-    if (!senha) return console.log("senha obrigatoria");
+    if (!email) return CustomizedToastify("Preencha o campo email!");
+    if (!senha) return CustomizedToastify("Preencha o campo senha!");
 
     return {
       email: email,
@@ -61,49 +64,106 @@ export default () => {
         }
       );
       if (response.status !== 200)
-        return console.log("usuario ou senha incorretos");
+        return CustomizedToastify("Email ou senha incorretos!");
 
       const data = await response.json();
 
       return data;
     } catch (error) {
-      console.log(error.message);
+      return CustomizedToastify(error.message);
     }
   };
 
   const getContacts = async () => {
-    const response = await fetch(
-      "https://cubos-api-contacts.herokuapp.com/contatos",
-      {
-        method: "GET",
-        headers: {
-          Authorization: usuarioLogado.token,
-        },
-      }
-    );
-
-    const data = await response.json();
-    return data;
+    try {
+      const response = await fetch(
+        "https://cubos-api-contacts.herokuapp.com/contatos",
+        {
+          method: "GET",
+          headers: {
+            Authorization: usuarioLogado.token,
+          },
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return CustomizedToastify(error.message);
+    }
   };
 
   const newContact = async (nome, email, telefone) => {
-    const response = await fetch(
-      "https://cubos-api-contacts.herokuapp.com/contatos",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: usuarioLogado.token,
-        },
-        body: JSON.stringify({
-          nome,
-          email,
-          telefone,
-        }),
+    try {
+      const response = await fetch(
+        "https://cubos-api-contacts.herokuapp.com/contatos",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: usuarioLogado.token,
+          },
+          body: JSON.stringify({
+            nome,
+            email,
+            telefone,
+          }),
+        }
+      );
+      if (response.status === 200)
+        return CustomizedToastify("Sucesso ao cadastrar!");
+      setChanged(response);
+    } catch (error) {
+      return CustomizedToastify(error.message);
+    }
+  };
+
+  const delContact = async (id) => {
+    try {
+      const response = await fetch(
+        `https://cubos-api-contacts.herokuapp.com/contatos/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: usuarioLogado.token,
+          },
+        }
+      );
+      if (response.status === 200) {
+        CustomizedToastify("Sucesso ao apagar!");
+        setChanged(response);
+        return;
       }
-    );
-    console.log(response.status);
-    setChanged(response);
+    } catch (error) {
+      return CustomizedToastify(error.message);
+    }
+  };
+
+  const editContact = async (id, nome, email, telefone) => {
+    try {
+      const result = await fetch(
+        `https://cubos-api-contacts.herokuapp.com/contatos/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: usuarioLogado.token,
+          },
+          body: JSON.stringify({
+            nome,
+            email,
+            telefone,
+          }),
+        }
+      );
+
+      if (result.status === 200) {
+        CustomizedToastify("Sucesso ao editar!");
+        setChanged(result);
+        return;
+      }
+    } catch (error) {
+      return CustomizedToastify(error.message);
+    }
   };
 
   return {
@@ -120,5 +180,11 @@ export default () => {
     getContacts,
     newContact,
     changed,
+    delContact,
+    editContact,
+    editingContact,
+    setEditingContact,
+    setContactInEditing,
+    contactInEditing,
   };
 };

@@ -1,0 +1,24 @@
+.container-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  flex-grow: 1;
+  padding: 0 120px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.login h1,
+h5 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.redirect-register a {
+  text-decoration: none;
+}

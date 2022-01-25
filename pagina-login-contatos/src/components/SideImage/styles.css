@@ -1,0 +1,11 @@
+.container-image {
+  display: flex;
+  height: 100vh;
+  width: 50vw;
+  background-color: blue;
+}
+
+.container-image img {
+  height: 100vh;
+  width: 50vw;
+}

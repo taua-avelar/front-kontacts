@@ -10,12 +10,12 @@ import AppBar from "./styles";
 import CustomizedToastify from "../toastify/Toastify.jsx";
 
 export default function PersistentDrawerRight() {
-  const { setUsuarioLogado, setDadosLogin } = useData();
+  const { setDadosLogin, removeUsuarioLogado } = useData();
   const history = useHistory();
 
   const handleLogout = () => {
     setDadosLogin({});
-    setUsuarioLogado({});
+    removeUsuarioLogado();
     history.push("/login");
     CustomizedToastify("Sucesso ao deslogar!");
   };

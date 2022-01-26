@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useLocalStorage } from "react-use";
 import CustomizedToastify from "../components/toastify/Toastify";
 
-export default () => {
+export default function Provider() {
   const [dadosCadastro, setDadosCadastro] = useState({});
   const [dadosLogin, setDadosLogin] = useState({});
-  const [usuarioLogado, setUsuarioLogado] = useState({});
+  const [usuarioLogado, setUsuarioLogado, removeUsuarioLogado] =
+    useLocalStorage("token", "");
   const [changed, setChanged] = useState();
   const [editingContact, setEditingContact] = useState(false);
   const [contactInEditing, setContactInEditing] = useState({});
@@ -186,5 +188,6 @@ export default () => {
     setEditingContact,
     setContactInEditing,
     contactInEditing,
+    removeUsuarioLogado,
   };
-};
+}

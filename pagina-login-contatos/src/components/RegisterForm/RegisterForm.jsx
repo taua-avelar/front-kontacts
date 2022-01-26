@@ -7,8 +7,13 @@ import CustomizedToastify from "../toastify/Toastify";
 
 export default function RegisterForm() {
   const history = useHistory();
-  const { setDadosCadastro, dadosCadastro, handleRegister, userRegister } =
-    useData();
+  const {
+    setDadosCadastro,
+    dadosCadastro,
+    handleRegister,
+    userRegister,
+    usuarioLogado,
+  } = useData();
 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -28,6 +33,11 @@ export default function RegisterForm() {
       return;
     }
   }, [cadastrado]);
+
+  useEffect(() => {
+    usuarioLogado && usuarioLogado.usuario && history.push("/contatos");
+  }, [usuarioLogado]);
+
   return (
     <div className="container-form">
       <div className="register">

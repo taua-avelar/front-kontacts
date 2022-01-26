@@ -32,7 +32,6 @@ function App() {
             <ProtectedRoutes>
               <Route component={Contacts} path={"/contatos"} exact />
             </ProtectedRoutes>
-            <Redirect from="/" to={"/login"} />
           </Switch>
         </Router>
       </div>

@@ -1,24 +1,31 @@
 import { Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import CustomizedToastify from "../../helpers/toastify/Toastify";
 import useData from "../../hooks/useData";
 import "./styles.css";
-import CustomizedToastify from "../toastify/Toastify";
+
+const handleRegister = (nome, email, senha) => {
+  if (!nome) return CustomizedToastify("Preencha o campo nome!");
+  if (!email) return CustomizedToastify("Preencha o campo email!");
+  if (!senha) return CustomizedToastify("Preencha o campo senha!");
+
+  return {
+    nome: nome,
+    email: email,
+    senha: senha,
+  };
+};
 
 export default function RegisterForm() {
   const history = useHistory();
-  const {
-    setDadosCadastro,
-    dadosCadastro,
-    handleRegister,
-    userRegister,
-    usuarioLogado,
-  } = useData();
+  const { userRegister, usuarioLogado } = useData();
 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [cadastrado, setCadastrado] = useState({});
+  const [dadosCadastro, setDadosCadastro] = useState({});
 
   useEffect(async () => {
     dadosCadastro &&

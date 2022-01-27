@@ -5,16 +5,15 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useHistory } from "react-router-dom";
+import CustomizedToastify from "../../helpers/toastify/Toastify.jsx";
 import useData from "../../hooks/useData.jsx";
 import AppBar from "./styles";
-import CustomizedToastify from "../toastify/Toastify.jsx";
 
 export default function PersistentDrawerRight() {
-  const { setDadosLogin, removeUsuarioLogado } = useData();
+  const { removeUsuarioLogado } = useData();
   const history = useHistory();
 
   const handleLogout = () => {
-    setDadosLogin({});
     removeUsuarioLogado();
     history.push("/login");
     CustomizedToastify("Sucesso ao deslogar!");

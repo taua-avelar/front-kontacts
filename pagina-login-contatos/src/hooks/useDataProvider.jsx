@@ -1,27 +1,13 @@
 import { useState } from "react";
 import { useLocalStorage } from "react-use";
-import CustomizedToastify from "../components/toastify/Toastify";
+import CustomizedToastify from "../helpers/toastify/Toastify";
 
 export default function Provider() {
-  const [dadosCadastro, setDadosCadastro] = useState({});
-  const [dadosLogin, setDadosLogin] = useState({});
   const [usuarioLogado, setUsuarioLogado, removeUsuarioLogado] =
     useLocalStorage("token", "");
   const [changed, setChanged] = useState();
   const [editingContact, setEditingContact] = useState(false);
   const [contactInEditing, setContactInEditing] = useState({});
-
-  const handleRegister = (nome, email, senha) => {
-    if (!nome) return CustomizedToastify("Preencha o campo nome!");
-    if (!email) return CustomizedToastify("Preencha o campo email!");
-    if (!senha) return CustomizedToastify("Preencha o campo senha!");
-
-    return {
-      nome: nome,
-      email: email,
-      senha: senha,
-    };
-  };
 
   const userRegister = async (dados) => {
     try {
@@ -41,16 +27,6 @@ export default function Provider() {
     } catch (error) {
       return CustomizedToastify(error.message);
     }
-  };
-
-  const handleLogin = (email, senha) => {
-    if (!email) return CustomizedToastify("Preencha o campo email!");
-    if (!senha) return CustomizedToastify("Preencha o campo senha!");
-
-    return {
-      email: email,
-      senha: senha,
-    };
   };
 
   const userLogin = async (dados) => {
@@ -169,15 +145,9 @@ export default function Provider() {
   };
 
   return {
-    dadosCadastro,
-    setDadosCadastro,
-    dadosLogin,
-    setDadosLogin,
     usuarioLogado,
     setUsuarioLogado,
-    handleRegister,
     userRegister,
-    handleLogin,
     userLogin,
     getContacts,
     newContact,

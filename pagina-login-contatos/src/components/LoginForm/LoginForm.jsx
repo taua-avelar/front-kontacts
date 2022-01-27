@@ -4,19 +4,23 @@ import { useHistory } from "react-router-dom";
 import useData from "../../hooks/useData";
 import "./styles.css";
 
+const handleLogin = (email, senha) => {
+  if (!email) return CustomizedToastify("Preencha o campo email!");
+  if (!senha) return CustomizedToastify("Preencha o campo senha!");
+
+  return {
+    email: email,
+    senha: senha,
+  };
+};
+
 export default function LoginForm() {
   const history = useHistory();
-  const {
-    handleLogin,
-    dadosLogin,
-    setDadosLogin,
-    userLogin,
-    usuarioLogado,
-    setUsuarioLogado,
-  } = useData();
+  const { userLogin, usuarioLogado, setUsuarioLogado } = useData();
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [dadosLogin, setDadosLogin] = useState({});
 
   useEffect(async () => {
     dadosLogin &&

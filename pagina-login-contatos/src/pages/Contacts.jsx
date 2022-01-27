@@ -1,11 +1,15 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header/Header.jsx";
 import Table from "../components/Tables/Table";
+import useData from "../hooks/useData.jsx";
 
 export default function Contacts() {
   const [creatingContact, setCreatingContact] = useState(false);
   const [deletingContact, setDeletingContact] = useState(false);
+  const { usuarioLogado, removeUsuarioLogado } = useData();
+
+  if (usuarioLogado.token === "expired") return removeUsuarioLogado();
 
   return (
     <>

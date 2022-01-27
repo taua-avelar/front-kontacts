@@ -2,6 +2,7 @@ import { Box, Typography, Button } from "@mui/material";
 import useData from "../../hooks/useData";
 import { useState } from "react";
 import { TextField } from "@mui/material";
+import { editContact } from "../../requests/editContact";
 
 const style = {
   display: "flex",
@@ -19,7 +20,8 @@ const style = {
 };
 
 export default function EditingContactModal({ editingId }) {
-  const { setEditingContact, contactInEditing, editContact } = useData();
+  const { setEditingContact, contactInEditing, usuarioLogado, setChanged } =
+    useData();
 
   const [nome, setNome] = useState(contactInEditing.nome);
   const [email, setEmail] = useState(contactInEditing.email);
@@ -60,7 +62,14 @@ export default function EditingContactModal({ editingId }) {
         variant="contained"
         onClick={() => {
           setEditingContact(false);
-          editContact(editingId, nome, email, telefone);
+          editContact(
+            editingId,
+            nome,
+            email,
+            telefone,
+            usuarioLogado.token,
+            setChanged
+          );
         }}
       >
         Confirmar

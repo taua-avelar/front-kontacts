@@ -1,4 +1,5 @@
 import { Box, Typography, Button } from "@mui/material";
+import { delContact } from "../../requests/delContact";
 import useData from "../../hooks/useData";
 
 const style = {
@@ -17,7 +18,7 @@ const style = {
 };
 
 export default function DeleteContactModal({ setDeletingContact, deletingId }) {
-  const { delContact } = useData();
+  const { usuarioLogado, setChanged } = useData();
   return (
     <Box sx={style}>
       <Typography id="modal-modal-title" variant="h5" component="h2">
@@ -30,7 +31,7 @@ export default function DeleteContactModal({ setDeletingContact, deletingId }) {
         style={{ backgroundColor: "#04C45C" }}
         variant="contained"
         onClick={() => {
-          delContact(deletingId);
+          delContact(deletingId, usuarioLogado.token, setChanged);
           setDeletingContact(false);
         }}
       >

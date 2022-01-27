@@ -1,7 +1,8 @@
 import { Box, Typography, Button, TextField } from "@mui/material";
 import { useState } from "react";
-import useData from "../../hooks/useData";
 import { useHistory } from "react-router-dom";
+import { newContact } from "../../requests/newContact";
+import useData from "../../hooks/useData";
 
 const style = {
   position: "absolute",
@@ -20,10 +21,10 @@ const style = {
 
 export default function AddContactModal({ setCreatingContact }) {
   const history = useHistory();
-  const { newContact } = useData();
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
+  const { usuarioLogado, setChanged } = useData();
 
   return (
     <Box sx={style}>
@@ -62,7 +63,7 @@ export default function AddContactModal({ setCreatingContact }) {
         style={{ backgroundColor: "#04C45C" }}
         variant="contained"
         onClick={() => {
-          newContact(nome, email, telefone);
+          newContact(nome, email, telefone, usuarioLogado.token, setChanged);
           setCreatingContact(false);
           history.push("/login");
         }}

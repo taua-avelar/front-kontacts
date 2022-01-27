@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 import useData from "../../hooks/useData";
+import getContacts from "../../requests/getContacts";
 import AddContactModal from "../Modals/AddContactModal";
 import DeleteContactModal from "../Modals/DeleteContactModal";
 import EditingContactModal from "../Modals/EditingContactModal";
@@ -24,15 +25,15 @@ export default function CustomizedTables({
   const [deletingId, setDeletingId] = React.useState();
   const [editingId, setEditingId] = React.useState();
   const {
-    getContacts,
     changed,
     editingContact,
     setEditingContact,
     setContactInEditing,
+    usuarioLogado,
   } = useData();
 
   React.useEffect(async () => {
-    setContacts(await getContacts());
+    setContacts(await getContacts(usuarioLogado.token));
   }, [changed]);
 
   return (

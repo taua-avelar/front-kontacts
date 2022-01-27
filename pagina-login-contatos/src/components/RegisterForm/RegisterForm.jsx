@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import CustomizedToastify from "../../helpers/toastify/Toastify";
 import useData from "../../hooks/useData";
+import { userRegister } from "../../requests/userRegister";
 import "./styles.css";
 
 const handleRegister = (nome, email, senha) => {
@@ -19,13 +20,13 @@ const handleRegister = (nome, email, senha) => {
 
 export default function RegisterForm() {
   const history = useHistory();
-  const { userRegister, usuarioLogado } = useData();
+  const { usuarioLogado } = useData();
 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [cadastrado, setCadastrado] = useState({});
   const [dadosCadastro, setDadosCadastro] = useState({});
+  const [cadastrado, setCadastrado] = useState({});
 
   useEffect(async () => {
     dadosCadastro &&

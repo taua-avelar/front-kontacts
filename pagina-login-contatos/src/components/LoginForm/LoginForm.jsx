@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import useData from "../../hooks/useData";
 import "./styles.css";
+import { userLogin } from "../../requests/userLogin";
+import CustomizedToastify from "../../helpers/toastify/Toastify";
 
 const handleLogin = (email, senha) => {
   if (!email) return CustomizedToastify("Preencha o campo email!");
@@ -16,11 +18,11 @@ const handleLogin = (email, senha) => {
 
 export default function LoginForm() {
   const history = useHistory();
-  const { userLogin, usuarioLogado, setUsuarioLogado } = useData();
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [dadosLogin, setDadosLogin] = useState({});
+  const { usuarioLogado, setUsuarioLogado } = useData();
 
   useEffect(async () => {
     dadosLogin &&
